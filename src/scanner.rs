@@ -1,4 +1,4 @@
-use std::{collections::HashMap, u128};
+use std::{collections::{HashMap, btree_map::Keys}, u128};
 
 
 // HashMap to convert characters into TokenType's
@@ -62,19 +62,21 @@ impl Token {
     }
 }
 
-pub fn _scan_token(current_line: u128) -> HashMap<char, Token> { 
+pub fn _scan_token(current_line: u128) -> HashMap<char, Token> {
+
+    let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
+    let mut token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: current_line}, Token {token_type: TokenType::RightParen, line: current_line}, Token {token_type: TokenType::LeftBrace, line: current_line}, Token {token_type: TokenType::RightBrace, line: current_line}, Token {token_type: TokenType::Comma, line: current_line}, Token {token_type: TokenType::Dot, line: current_line}, Token {token_type: TokenType::Minus, line: current_line}, Token {token_type: TokenType::Plus, line: current_line}, Token {token_type: TokenType::SemiColon, line: current_line}, Token {token_type: TokenType::Star, line: current_line}];
     // HashMap containing characters that may appear in the code
     let mut token_hash: HashMap<char, Token> = HashMap::new();
-    token_hash.insert('(', Token {token_type: TokenType::LeftParen, line: current_line}); 
-    token_hash.insert(')', Token {token_type: TokenType::RightParen, line: current_line});
-    token_hash.insert('{', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert('}', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert(',', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert('.', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert('-', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert('+', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert(';', Token {token_type: TokenType::LeftParen, line: current_line});
-    token_hash.insert('*', Token {token_type: TokenType::LeftParen, line: current_line});
+
+    let mut iterator: u16 = 0;
+
+    while iterator < 10 {
+        let char_element = char_vec.get(iterator);
+        let token_element = token_vec.get(iterator);
+        token_hash.insert(char_element, token_element);
+        iterator += 1;
+    }
 
     let paren: char = ')';
     println!("{:?}", token_hash.get(&paren));
