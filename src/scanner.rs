@@ -1,7 +1,6 @@
 use std::{collections::{HashMap, btree_map::Keys}, u128};
 
 
-// HashMap to convert characters into TokenType's
 
 
 // Defines all the tokens/lexes
