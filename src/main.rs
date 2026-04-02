@@ -21,3 +21,5 @@ fn main() {
 }
 
 
+// A message to Subaru if you happend to come here once more:
+//  "blud."
