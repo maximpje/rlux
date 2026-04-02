@@ -1,7 +1,10 @@
 use std::{collections::{HashMap}, u128, vec};
 
 
-
+// scanner variables
+// static line: u32 = 1;  // current line where it's scanning
+// static current: u32 = 0; // current character scanning 
+// static start: u32 = 0;
 
 // Defines all the tokens/lexes
 // Used for the scanning process
@@ -61,7 +64,7 @@ impl Token {
     }
 }
 
-pub fn _scan_token(current_line: u128) -> Vec<Token> {
+pub fn scan_token(current_line: u128) -> Vec<Token> {
 
     let tokens_list: Vec<Token> = vec![];
 
