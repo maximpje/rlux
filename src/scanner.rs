@@ -1,11 +1,11 @@
-use std::{collections::{HashMap, btree_map::Keys}, u128};
+use std::{collections::{HashMap, btree_map::Keys}, u128, vec};
 
 
 
 
 // Defines all the tokens/lexes
 // Used for the scanning process
-#[derive(Debug, Clone)] // Honestly at this point idk why this has to be here it just doesn't work without it
+#[derive(Debug)] 
 pub enum TokenType {
     LeftParen, // Single-Character Tokens
     RightParen,
@@ -49,7 +49,7 @@ pub enum TokenType {
 }
 
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Token {
     pub token_type: TokenType,
     pub line: u128,
@@ -61,22 +61,28 @@ impl Token {
     }
 }
 
-pub fn _scan_token(current_line: u128) -> HashMap<char, Token> {
+pub fn _scan_token(current_line: u128) -> Vec<Token> {
 
-    let char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
-    let token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: current_line}, Token {token_type: TokenType::RightParen, line: current_line}, Token {token_type: TokenType::LeftBrace, line: current_line}, Token {token_type: TokenType::RightBrace, line: current_line}, Token {token_type: TokenType::Comma, line: current_line}, Token {token_type: TokenType::Dot, line: current_line}, Token {token_type: TokenType::Minus, line: current_line}, Token {token_type: TokenType::Plus, line: current_line}, Token {token_type: TokenType::SemiColon, line: current_line}, Token {token_type: TokenType::Star, line: current_line}];
+    let tokens_list: Vec<Token> = vec![];
+
+    // Contains the elements that will be put into the HashMap
+    let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
+    let mut token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: current_line}, Token {token_type: TokenType::RightParen, line: current_line}, Token {token_type: TokenType::LeftBrace, line: current_line}, Token {token_type: TokenType::RightBrace, line: current_line}, Token {token_type: TokenType::Comma, line: current_line}, Token {token_type: TokenType::Dot, line: current_line}, Token {token_type: TokenType::Minus, line: current_line}, Token {token_type: TokenType::Plus, line: current_line}, Token {token_type: TokenType::SemiColon, line: current_line}, Token {token_type: TokenType::Star, line: current_line}];
+    
     // HashMap containing characters that may appear in the code
     let mut token_hash: HashMap<char, Token> = HashMap::new();
 
-    let mut iterator = 0;
-
-    while iterator < 10 {
-        token_hash.insert(char_vec[iterator], token_vec[iterator].clone());
-        iterator += 1;
+    let mut i = 0;
+    while i < 10 {
+        token_hash.insert(char_vec.pop().unwrap(), token_vec.pop().unwrap());
+        i += 1;
     }
 
+    // Debug
     let paren: char = '+';
     println!("{:?}", token_hash.get(&paren));
 
-    token_hash
+
+    // Returns the list of tokens which have been scanned
+    tokens_list
 }
