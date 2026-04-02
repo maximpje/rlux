@@ -49,7 +49,7 @@ pub enum TokenType {
 }
 
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct Token {
     pub token_type: TokenType,
     pub line: u128,
@@ -71,9 +71,7 @@ pub fn _scan_token(current_line: u128) -> HashMap<char, Token> {
     let mut iterator = 0;
 
     while iterator < 10 {
-        let char_element: char = char_vec[iterator];
-        let token_element: Token = token_vec[iterator].clone();
-        token_hash.insert(char_element, token_element);
+        token_hash.insert(char_vec[iterator], token_vec[iterator].clone());
         iterator += 1;
     }
 
