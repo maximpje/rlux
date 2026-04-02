@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 pub mod file_reader;
 pub mod scanner;
 
@@ -17,7 +15,7 @@ fn main() {
     // debug stuff
     println!("{}", file_reader::read_file("testfile.txt"));
 
-    let _unimportant: HashMap<char, scanner::Token> = scanner::_scan_token(3);
+    let _unimportant: Vec<scanner::Token> = scanner::_scan_token(3);
 }
 
 
