@@ -1,10 +1,15 @@
 use std::{collections::{HashMap}, u128, vec};
+// use std::sync::atomic;
+
+pub mod scanner_helpers;
 
 
 // scanner variables
-// static line: u32 = 1;  // current line where it's scanning
-// static current: u32 = 0; // current character scanning 
-// static start: u32 = 0;
+//static mut LINE: atomic::AtomicU32 = atomic::AtomicU32::new(1);  // current line where it's scanning
+//static mut CURRENT: atomic::AtomicU32 = atomic::AtomicU32::new(0); // current character scanning 
+//static mut START: atomic::AtomicU32 = atomic::AtomicU32::new(0);
+
+
 
 // Defines all the tokens/lexes
 // Used for the scanning process
@@ -51,11 +56,11 @@ pub enum TokenType {
     Eof, // End Of File Token  
 }
 
-
+// Token object definiton
 #[derive(Debug)]
 pub struct Token {
     pub token_type: TokenType,
-    pub line: u128,
+    pub line: u32,
 }
 
 impl Token {
@@ -64,28 +69,47 @@ impl Token {
     }
 }
 
-pub fn scan_token(current_line: u128) -> Vec<Token> {
 
-    let tokens_list: Vec<Token> = vec![];
+// Scanner object
+#[derive(Debug)]
+pub struct ScanToken {
+    pub current_line: u32,
+    pub current: u32,
+    pub start: u32,
+}
 
-    // Contains the elements that will be put into the HashMap
-    let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
-    let mut token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: current_line}, Token {token_type: TokenType::RightParen, line: current_line}, Token {token_type: TokenType::LeftBrace, line: current_line}, Token {token_type: TokenType::RightBrace, line: current_line}, Token {token_type: TokenType::Comma, line: current_line}, Token {token_type: TokenType::Dot, line: current_line}, Token {token_type: TokenType::Minus, line: current_line}, Token {token_type: TokenType::Plus, line: current_line}, Token {token_type: TokenType::SemiColon, line: current_line}, Token {token_type: TokenType::Star, line: current_line}];
-    
-    // HashMap containing characters that may appear in the code
-    let mut token_hash: HashMap<char, Token> = HashMap::new();
+impl ScanToken {
+    pub fn scan_token(&self) -> Vec<Token> {
 
-    let mut i = 0;
-    while i < 10 {
-        token_hash.insert(char_vec.pop().unwrap(), token_vec.pop().unwrap());
-        i += 1;
+        // Contains the elements that will be put into the HashMap
+        let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
+        let mut token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: self.current_line}, Token {token_type: TokenType::RightParen, line: self.current_line}, Token {token_type: TokenType::LeftBrace, line: self.current_line}, Token {token_type: TokenType::RightBrace, line: self.current_line}, Token {token_type: TokenType::Comma, line: self.current_line}, Token {token_type: TokenType::Dot, line: self.current_line}, Token {token_type: TokenType::Minus, line: self.current_line}, Token {token_type: TokenType::Plus, line: self.current_line}, Token {token_type: TokenType::SemiColon, line: self.current_line}, Token {token_type: TokenType::Star, line: self.current_line}];
+        
+        // HashMap containing characters that may appear in the code
+        let mut token_hash: HashMap<char, Token> = HashMap::new();
+
+        let mut i = 0;
+        while i < 10 {
+            token_hash.insert(char_vec.pop().unwrap(), token_vec.pop().unwrap());
+            i += 1;
+        }
+
+        // Debug
+        let paren: char = '+';
+        println!("{:?}", Token::to_string(token_hash.get(&paren).unwrap()));
+
+        let mut tokens_list: Vec<Token> = Vec::new();
+        
+        // tokens_list.push(token_hash.get(&paren));        
+
+        match token_hash.get(&paren) {
+            None => tokens_list.push(Token {token_type: TokenType::Minus, line: self.current_line}),
+            Some(_x) => tokens_list.push(Token {token_type: TokenType::Plus, line: self.current_line})
+        }
+
+
+
+        // Returns the list of tokens which have been scanned
+        tokens_list
     }
-
-    // Debug
-    let paren: char = '+';
-    println!("{:?}", token_hash.get(&paren));
-
-
-    // Returns the list of tokens which have been scanned
-    tokens_list
 }

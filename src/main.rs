@@ -5,17 +5,13 @@ pub mod scanner;
 fn main() {
 
     // debug stuff
-    let lex: scanner::Token = scanner::Token {
-        token_type: scanner::TokenType::String(String::from("Hello, world!")),
-        line: 53
-    };
-
-    println!("{}", scanner::Token::to_string(&lex));
-
-    // debug stuff
     println!("{}", file_reader::read_file("testfile.txt"));
 
-    let _unimportant: Vec<scanner::Token> = scanner::scan_token(3);
+    let _unimportant: scanner::ScanToken = scanner::ScanToken {current_line: 1, current: 0, start: 0};
+
+    _unimportant.scan_token();    
+    println!("{:?}", _unimportant);
+
 }
 
 
