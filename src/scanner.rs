@@ -1,73 +1,14 @@
-use std::{collections::{HashMap}, u128, vec};
+use std::{collections::{HashMap}, vec};
 // use std::sync::atomic;
 
 pub mod scanner_helpers;
-
-
+pub mod token;
 // scanner variables
 //static mut LINE: atomic::AtomicU32 = atomic::AtomicU32::new(1);  // current line where it's scanning
 //static mut CURRENT: atomic::AtomicU32 = atomic::AtomicU32::new(0); // current character scanning 
 //static mut START: atomic::AtomicU32 = atomic::AtomicU32::new(0);
 
 
-
-// Defines all the tokens/lexes
-// Used for the scanning process
-#[derive(Debug)] 
-pub enum TokenType {
-    LeftParen, // Single-Character Tokens
-    RightParen,
-    LeftBrace,
-    RightBrace,
-    Comma,
-    Dot,
-    Minus,
-    Plus,
-    SemiColon,
-    Slash,
-    Star,
-    Bang, // One or Two Character Tokens
-    BangEqual,
-    Equal,
-    EqualEqual,
-    Greater,
-    GreaterEqual,
-    Less,
-    LessEqual,
-    Identifier, // Literals
-    String(String), // The scanner picks a string from between "" and puts it in the tuple
-    Number(u128), // Like the String token but for numbers
-    And, // Keywords
-    Class,
-    Else,
-    False,
-    Fun,
-    For,
-    If,
-    Nil,
-    Or,
-    Print,
-    Return,
-    Super,
-    This,
-    True,
-    Var,
-    While,
-    Eof, // End Of File Token  
-}
-
-// Token object definiton
-#[derive(Debug)]
-pub struct Token {
-    pub token_type: TokenType,
-    pub line: u32,
-}
-
-impl Token {
-    pub fn to_string(&self) -> String{
-        format!("type: {:?}, line: {}", self.token_type, self.line)
-    }
-}
 
 
 // Scanner object
@@ -79,14 +20,14 @@ pub struct ScanToken {
 }
 
 impl ScanToken {
-    pub fn scan_token(&self) -> Vec<Token> {
+    pub fn scan_token(&self) -> Vec<token::Token> {
 
         // Contains the elements that will be put into the HashMap
         let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
-        let mut token_vec: Vec<Token> = vec![Token {token_type: TokenType::LeftParen, line: self.current_line}, Token {token_type: TokenType::RightParen, line: self.current_line}, Token {token_type: TokenType::LeftBrace, line: self.current_line}, Token {token_type: TokenType::RightBrace, line: self.current_line}, Token {token_type: TokenType::Comma, line: self.current_line}, Token {token_type: TokenType::Dot, line: self.current_line}, Token {token_type: TokenType::Minus, line: self.current_line}, Token {token_type: TokenType::Plus, line: self.current_line}, Token {token_type: TokenType::SemiColon, line: self.current_line}, Token {token_type: TokenType::Star, line: self.current_line}];
+        let mut token_vec: Vec<token::Token> = vec![token::Token {token_type: token::TokenType::LeftParen, line: self.current_line}, token::Token {token_type: token::TokenType::RightParen, line: self.current_line}, token::Token {token_type: token::TokenType::LeftBrace, line: self.current_line}, token::Token {token_type: token::TokenType::RightBrace, line: self.current_line}, token::Token {token_type: token::TokenType::Comma, line: self.current_line}, token::Token {token_type: token::TokenType::Dot, line: self.current_line}, token::Token {token_type: token::TokenType::Minus, line: self.current_line}, token::Token {token_type: token::TokenType::Plus, line: self.current_line}, token::Token {token_type: token::TokenType::SemiColon, line: self.current_line}, token::Token {token_type: token::TokenType::Star, line: self.current_line}];
         
         // HashMap containing characters that may appear in the code
-        let mut token_hash: HashMap<char, Token> = HashMap::new();
+        let mut token_hash: HashMap<char, token::Token> = HashMap::new();
 
         let mut i = 0;
         while i < 10 {
@@ -96,15 +37,15 @@ impl ScanToken {
 
         // Debug
         let paren: char = '+';
-        println!("{:?}", Token::to_string(token_hash.get(&paren).unwrap()));
+        println!("{:?}", token::Token::to_string(token_hash.get(&paren).unwrap()));
 
-        let mut tokens_list: Vec<Token> = Vec::new();
+        let mut tokens_list: Vec<token::Token> = Vec::new();
         
         // tokens_list.push(token_hash.get(&paren));        
 
         match token_hash.get(&paren) {
-            None => tokens_list.push(Token {token_type: TokenType::Minus, line: self.current_line}),
-            Some(_x) => tokens_list.push(Token {token_type: TokenType::Plus, line: self.current_line})
+            None => tokens_list.push(token::Token {token_type: token::TokenType::Minus, line: self.current_line}),
+            Some(_x) => tokens_list.push(token::Token {token_type: token::TokenType::Plus, line: self.current_line})
         }
 
 
