@@ -15,12 +15,14 @@ pub mod token;
 #[derive(Debug)]
 pub struct ScanToken {
     pub current_line: u32,
-    pub current: u32,
-    pub start: u32,
+    current: u32,
+    start: u32,
+    source: String,
+    tokens: Vec<token::Token>
 }
 
 impl ScanToken {
-    pub fn scan_token(&self) -> Vec<token::Token> {
+pub fn scan_token(&self) -> token::Token {
 
         // Contains the elements that will be put into the HashMap
         let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
@@ -35,22 +37,29 @@ impl ScanToken {
             i += 1;
         }
 
-        // Debug
-        let paren: char = '+';
-        println!("{:?}", token::Token::to_string(token_hash.get(&paren).unwrap()));
+        // Scans current token and returns        
+        let a: char = self.advance();
 
-        let mut tokens_list: Vec<token::Token> = Vec::new();
-        
-        // tokens_list.push(token_hash.get(&paren));        
-
-        match token_hash.get(&paren) {
-            None => tokens_list.push(token::Token {token_type: token::TokenType::Minus, line: self.current_line}),
-            Some(_x) => tokens_list.push(token::Token {token_type: token::TokenType::Plus, line: self.current_line})
+        match token_hash.get(&a) {
+            None => return token::Token { token_type: token::TokenType::Eof, line: 0 },
+            Some(_x) => return token::Token {token_type: token::TokenType::Plus, line: self.current_line}
         }
 
+    }
 
+    // Returns true if all the tokens have been scanned  
+    fn is_at_end(self) -> bool {
+        self.current >= self.source.len().try_into().unwrap()
+    }
 
-        // Returns the list of tokens which have been scanned
-        tokens_list
+    // Returns the current character to be scanned and increases the iterator
+    fn advance(mut self) -> char {
+        self.current+=1;
+        self.source.chars().nth(self.current.try_into().unwrap()).unwrap()
+    }
+
+    // Returns the current line
+    fn get_line(self) -> u32{
+        self.current_line
     }
 }

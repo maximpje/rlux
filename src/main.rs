@@ -7,7 +7,7 @@ fn main() {
     // debug stuff
     println!("{}", file_reader::read_file("testfile.txt"));
 
-    let _unimportant: scanner::ScanToken = scanner::ScanToken {current_line: 1, current: 0, start: 0};
+    let _unimportant: scanner::ScanToken = scanner::ScanToken {current_line: 1, current: 0, start: 0, source: ">", tokens: vec![]};
 
     _unimportant.scan_token();    
     println!("{:?}", _unimportant);
