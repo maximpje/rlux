@@ -22,7 +22,7 @@ pub struct ScanToken {
 }
 
 impl ScanToken {
-pub fn scan_token(&self) -> token::Token {
+pub fn scan_token(self) -> token::Token {
 
         // Contains the elements that will be put into the HashMap
         let mut char_vec: Vec<char> = vec!['(', ')', '{', '}', ',', '.', '-', '+', ';', '*'];
@@ -42,7 +42,7 @@ pub fn scan_token(&self) -> token::Token {
 
         match token_hash.get(&a) {
             None => return token::Token { token_type: token::TokenType::Eof, line: 0 },
-            Some(_x) => return token::Token {token_type: token::TokenType::Plus, line: self.current_line}
+            Some(_x) => return token::Token {token_type: token::TokenType::Plus, line: self.current_line.clone()}
         }
 
     }
